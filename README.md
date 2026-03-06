@@ -1,4 +1,3 @@
-
 🦋 Emowall AI 2.0
 "Seven Brains, One Guardian" The World's First Multi-Generational AI Safety Platform
 
