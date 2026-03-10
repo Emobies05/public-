@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emowall AI — LinkedIn Carousel</title>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700,800&f[]=cabinet-grotesk@300,400,500,700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --void: #03040a;
+  --gold: #c8962e;
+  --gold2: #e8b84b;
+  --gold3: #f5d070;
+  --teal: #00d4aa;
+  --teal2: #00efc0;
+  --text: #eceef8;
+  --muted: #5c6480;
+  --soft: #8892b0;
+}
+
+body {
+  background: #0a0b12;
+  font-family: 'Cabinet Grotesk', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 40px 20px 60px;
+  color: var(--text);
+}
+
+/* ── HEADER ── */
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.header-label {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 10px; display: block;
+}
+.header-title {
+  font-family: 'Clash Display', sans-serif;
+  font-size: 1.8rem; font-weight: 700; color: var(--text);
+}
+.header-sub { font-size: 0.85rem; color: var(--muted); margin-top: 6px; }
+
+/* ── CAROUSEL WRAPPER ── */
+.carousel-wrapper {
+  width: 100%;
+  max-width: 600px;
+  position: relative;
+}
+
+/* ── SLIDE CONTAINER ── */
+.slide-container {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.7);
+}
+
+.slide {
+  position: absolute; inset: 0;
+  opacity: 0;
+  transform: translateX(60px) scale(0.97);
+  transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+.slide.active {
+  opacity: 1;
+  transform: translateX(0) scale(1);
+  pointer-events: all;
+}
+.slide.prev {
+  opacity: 0;
+  transform: translateX(-60px) scale(0.97);
+}
+
+/* ── SLIDE BASE ── */
+.slide-inner {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  padding: 52px;
+  position: relative; overflow: hidden;
+}
+
+/* Slide number */
+.slide-num {
+  position: absolute;
+  top: 32px; right: 40px;
+  font-family: 'Clash Display', sans-serif;
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.2em; color: rgba(255,255,255,0.2);
+}
+
+/* Branding */
+.slide-brand {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: auto;
+}
+.brand-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%; background: var(--gold2);
+  animation: bdot 2s infinite;
+}
+@keyframes bdot { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.brand-name {
+  font-family: 'Clash Display', sans-serif;
+  font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold2);
+}
+
+/* Footer brand */
+.slide-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: auto; padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.slide-footer-brand {
+  font-family: 'Clash Display', sans-serif;
+  font-size: 0.65rem; font-weight: 700;
+  letter-spacing: 0.2em; color: var(--muted);
+  text-transform: uppercase;
+}
+.slide-footer-tag {
+  font-size: 0.65rem; color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+/* Decorative corner */
+.corner-deco {
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 200px; height: 200px;
+  border-radius: 100px 0 0 0;
+  opacity: 0.04;
+  pointer-events: none;
+}
+
+/* ── SLIDE 1 — HOOK ── */
+.slide-1 { background: var(--void); }
+.slide-1 .corner-deco { background: var(--gold2); }
+.slide-1 .slide-inner::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 80% at 50% -10%, rgba(200,150,46,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 90% 90%, rgba(0,212,170,0.06) 0%, transparent 50%);
+}
+.s1-eyebrow {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.25em;
+  text-transform: uppercase; color: var(--teal);
+  margin-bottom: 20px; display: block; position: relative;
+}
+.s1-title {
+  font-family: 'Clash Display', sans-serif;
+  font-size: clamp(2.8rem, 8vw, 4.2rem);
+  font-weight: 800; line-height: 1.0;
+  position: relative; z-index: 2;
+  margin-bottom: 24px;
+}
+.s1-title .gold { color: var(--gold2); }
+.s1-title .teal { color: var(--teal); }
+.s1-sub {
+  font-size: 1rem; color: var(--soft);
+  line-height: 1.7; max-width: 420px;
+  position: relative; z-index: 2;
+}
+.s1-butterfly {
+  position: absolute;
+  bottom: 80px; right: 52px;
+  font-size: 5rem;
+  opacity: 0.15;
+  animation: float 6s ease-in-out infinite;
+}
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+
+/* ── SLIDE 2 — THE STORY ── */
+.slide-2 { background: #07080f; }
+.slide-2 .slide-inner::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 60% at 20% 80%, rgba(200,150,46,0.07) 0%, transparent 60%);
+}
+.s2-big {
+  font-family: 'Clash Display', sans-serif;
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 700; line-height: 1.3;
+  position: relative; z-index: 2;
+  margin-bottom: 32px;
+}
+.s2-big .gold { color: var(--gold2); }
+.s2-big .teal { color: var(--teal); }
+.s2-lines {
+  display: flex; flex-direction: column; gap: 14px;
+  position: relative; z-index: 2;
+}
+.s2-line {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 14px 18px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 8px;
+}
+.s2-line-icon { font-size: 1.3rem; flex-shrink: 0; }
+.s2-line-text { font-size: 0.85rem; color: var(--soft); line-height: 1.5; }
+.s2-line-text strong { color: var(--text); font-weight: 600; }
+
+/* ── SLIDE 3 — THE PROBLEM ── */
+.slide-3 { background: #050608; }
+.slide-3 .slide-inner::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(200,150,46,0.08) 0%, transparent 60%);
+}
+.s3-kicker {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.25em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 16px; display: block; position: relative; z-index: 2;
+}
+.s3-title {
+  font-family: 'Clash Display', sans-serif;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 700; line-height: 1.1;
+  margin-bottom: 28px; position: relative; z-index: 2;
+}
+.s3-title .gold { color: var(--gold2); }
+.s3-list {
+  display: flex; flex-direction: column; gap: 10px;
+  position: relative; z-index: 2;
+}
+.s3-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px;
+  border-left: 2px solid rgba(200,150,46,0.3);
+  background: rgba(200,150,46,0.03);
+}
+.s3-item-emoji { font-size: 1.1rem; }
+.s3-item-text { font-size: 0.82rem; color: var(--soft); }
+.s3-item-text strong { color: var(--text); }
+
+/* ── SLIDE 4 — THE SOLUTION ── */
+.slide-4 { background: var(--void); }
+.slide-4 .slide-inner::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 70% at 80% 50%, rgba(0,212,170,0.07) 0%, transparent 60%);
+}
+.s4-kicker {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.25em;
+  text-transform: uppercase; color: var(--teal);
+  margin-bottom: 16px; display: block; position: relative; z-index: 2;
+}
+.s4-title {
+  font-family: 'Clash Display', sans-serif;
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  font-weight: 700; line-height: 1.1;
+  margin-bottom: 28px; position: relative; z-index: 2;
+}
+.s4-title .teal { color: var(--teal); }
+.s4-modes {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px; position: relative; z-index: 2;
+}
+.s4-mode {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+.s4-mode-emoji { font-size: 1.2rem; }
+.s4-mode-info {}
+.s4-mode-name {
+  font-family: 'Clash Display', sans-serif;
+  font-size: 0.78rem; font-weight: 700; color: var(--text);
+}
+.s4-mode-for { font-size: 0.68rem; color: var(--muted); }
+
+/* ── SLIDE 5 — 7 BRAINS ── */
+.slide-5 { background: #060710; }
+.slide-5 .slide-inner::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(200,150,46,0.06) 0%, transparent 60%);
+}
+.s5-title {
+  font-family: 'Clash Display', sans-serif;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 700; line-height: 1.1;
+  margin-bottom: 8px; position: relative; z-index: 2;
+}
+.s5-title .gold { color: var(--gold2); }
+.s5-sub {
+  font-size: 0.82rem; color: var(--muted);
+  margin-bottom: 24px; position: relative; z-index: 2;
+}
+.s5-brains {
+  display: flex; flex-direction: column; gap: 8px;
+  position: relative; z-index: 2;
+}
+.s5-brain {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 6px;
+}
+.s5-brain-num {
+  font-family: 'Clash Display', sans-serif;
+  font-size: 0.6rem; font-weight: 700; letter-spacing: 0.15em;
+  color: var(--muted); width: 28px; flex-shrink: 0;
+}
+.s5-brain-name {
+  font-family: 'Clash Display', sans-serif;
+  font-size: 0.8rem; font-weight: 700; color: var(--text);
+  width: 90px; flex-shrink: 0;
+}
+.s5-brain-role { font-size: 0.72rem; color: var(--soft); }
+.s5-brain-bar {
+  margin-left: auto; width: 40px; height: 2px;
+  border-radius: 2px; flex-shrink: 0;
+}
+
+/* ── SLIDE 6 — MEDIA VERIFIER ── */
+.slide-6 { background: #040509; }
+.slide-6 .slide-inner::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 30%, rgba(0,212,170,0.08) 0%, transparent 60%);
+}
+.s6-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(0,212,170,0.1); border: 1px solid rgba(0,212,170,0.25);
+  border-radius: 2px; padding: 6px 14px;
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--teal);
+  margin-bottom: 20px; display: inline-flex; position: relative; z-index: 2;
+}
+.s6-title {
+  font-family: 'Clash Display', sans-serif;
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 700; line-height: 1.1;
+  margin-bottom: 12px; position: relative; z-index: 2;
+}
+.s6-title .teal { color: var(--teal); }
+.s6-desc {
+  font-size: 0.9rem; color: var(--soft);
+  line-height: 1.7; margin-bottom: 28px;
+  position: relative; z-index: 2; max-width: 420px;
+}
+.s6-tags {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  position: relative; z-index: 2;
+}
+.s6-tag {
+  padding: 8px 18px; border-radius: 3px;
+  font-family: 'Clash Display', sans-serif;
+  font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em;
+}
+.tag-real { background: rgba(0,212,170,0.1); border: 1px solid rgba(0,212,170,0.3); color: var(--teal); }
+.tag-edited { background: rgba(200,150,46,0.1); border: 1px solid rgba(200,150,46,0.3); color: var(--gold2); }
+.tag-ai { background: rgba(244,63,94,0.1); border: 1px solid rgba(244,63,94,0.3); color: #fb7185; }
+
+/* ── SLIDE 7 — BUILD STORY ── */
+.slide-7 { background: #050608; }
+.slide-7 .slide-inner::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 50% 80% at 0% 100%, rgba(200,150,46,0.07) 0%, transparent 60%);
+}
+.s7-title {
+  font-family: 'Clash Display', sans-serif;
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  font-weight: 800; line-height: 1.0;
+  position: relative; z-index: 2;
+  margin-bottom: 28px;
+}
+.s7-title .gold { color: var(--gold2); }
+.s7-title .teal { color: var(--teal); }
+.s7-facts {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 12px; position: relative; z-index: 2;
+}
+.s7-fact {
+  padding: 16px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 8px;
+}
+.s7-fact-num {
+  font-family: 'Clash Display', sans-serif;
+  font-size: 2rem; font-weight: 800; color: var(--gold2);
+  line-height: 1; display: block; margin-bottom: 4px;
+}
+.s7-fact-num.teal { color: var(--teal); }
+.s7-fact-label { font-size: 0.72rem; color: var(--muted); line-height: 1.4; }
+
+/* ── SLIDE 8 — CTA ── */
+.slide-8 { background: var(--void); }
+.slide-8 .slide-inner::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 80% at 50% 50%, rgba(200,150,46,0.1) 0%, transparent 70%);
+  animation: glowPulse 4s ease-in-out infinite;
+}
+@keyframes glowPulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+.s8-pre {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.3em;
+  text-transform: uppercase; color: var(--muted);
+  margin-bottom: 16px; display: block; position: relative; z-index: 2;
+}
+.s8-title {
+  font-family: 'Clash Display', sans-serif;
+  font-size: clamp(2.2rem, 7vw, 4rem);
+  font-weight: 800; line-height: 1.0;
+  position: relative; z-index: 2;
+  margin-bottom: 24px;
+}
+.s8-title .gold { color: var(--gold2); }
+.s8-desc {
+  font-size: 0.9rem; color: var(--soft);
+  line-height: 1.7; max-width: 380px;
+  position: relative; z-index: 2;
+  margin-bottom: 28px;
+}
+.s8-cta {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--gold);
+  color: #000; padding: 14px 28px; border-radius: 3px;
+  font-family: 'Clash Display', sans-serif;
+  font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase;
+  position: relative; z-index: 2;
+  text-decoration: none;
+}
+.s8-butterfly {
+  position: absolute;
+  bottom: 60px; right: 52px;
+  font-size: 8rem;
+  opacity: 0.08;
+  animation: float 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* ── CONTROLS ── */
+.controls {
+  display: flex; align-items: center; gap: 20px;
+  margin-top: 24px;
+  width: 100%;
+  max-width: 600px;
+  justify-content: center;
+}
+.ctrl-btn {
+  width: 44px; height: 44px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 50%; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text); font-size: 1rem;
+  transition: all 0.2s;
+}
+.ctrl-btn:hover { background: rgba(200,150,46,0.1); border-color: rgba(200,150,46,0.3); }
+.ctrl-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.dots {
+  display: flex; gap: 8px; align-items: center;
+}
+.dot {
+  width: 6px; height: 6px; border-radius: 3px;
+  background: rgba(255,255,255,0.15);
+  cursor: pointer; transition: all 0.3s;
+}
+.dot.active {
+  width: 24px;
+  background: var(--gold2);
+}
+
+.slide-counter {
+  font-family: 'Clash Display', sans-serif;
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em;
+  color: var(--muted);
+  margin-left: auto;
+}
+
+/* ── INSTRUCTIONS ── */
+.instructions {
+  margin-top: 16px;
+  font-size: 0.72rem; color: var(--muted);
+  text-align: center; letter-spacing: 0.05em;
+}
+
+/* ── COPY SECTION ── */
+.copy-section {
+  width: 100%; max-width: 600px;
+  margin-top: 40px;
+  background: #0c0e1a;
+  border: 1px solid rgba(200,150,46,0.1);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.copy-header {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.copy-title {
+  font-family: 'Clash Display', sans-serif;
+  font-size: 0.85rem; font-weight: 700; color: var(--gold2);
+  letter-spacing: 0.1em;
+}
+.copy-btn {
+  background: rgba(200,150,46,0.1);
+  border: 1px solid rgba(200,150,46,0.25);
+  color: var(--gold2); padding: 6px 16px;
+  border-radius: 3px; cursor: pointer;
+  font-family: 'Clash Display', sans-serif;
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em;
+  text-transform: uppercase; transition: all 0.2s;
+}
+.copy-btn:hover { background: rgba(200,150,46,0.2); }
+.copy-body {
+  padding: 24px;
+  font-size: 0.85rem; color: var(--soft);
+  line-height: 1.8; white-space: pre-wrap;
+  font-family: 'Cabinet Grotesk', sans-serif;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <span class="header-label">LinkedIn Carousel · 8 Slides · 1:1 Format</span>
+  <div class="header-title">Emowall AI 2.0 — Launch Story</div>
+  <div class="header-sub">Use arrow keys or click to navigate · Screenshot each slide to post on LinkedIn</div>
+</div>
+
+<div class="carousel-wrapper">
+  <div class="slide-container">
+
+    <!-- SLIDE 1 — HOOK -->
+    <div class="slide active" data-index="0">
+      <div class="slide-inner" style="background: var(--void);">
+        <div class="slide-num">01 / 08</div>
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 80% at 50% -10%, rgba(200,150,46,0.15) 0%, transparent 60%),radial-gradient(ellipse 40% 40% at 90% 90%, rgba(0,212,170,0.06) 0%, transparent 50%);pointer-events:none;"></div>
+        <div class="slide-brand">
+          <div class="brand-dot"></div>
+          <span class="brand-name">Emowall AI 2.0</span>
+        </div>
+        <span class="s1-eyebrow">My Build Story 🧵</span>
+        <h1 class="s1-title">
+          I built an AI<br>
+          safety app.<br>
+          <span class="gold">On my phone.</span><br>
+          <span class="teal">From Dubai.</span>
+        </h1>
+        <p class="s1-sub">No laptop. No office. No team. Just a vision, Termux, and a dream. Here's how. 👇</p>
+        <div class="s1-butterfly">🦋</div>
+        <div class="slide-footer">
+          <span class="slide-footer-brand">Divin K K · Emobies</span>
+          <span class="slide-footer-tag">#BuildInPublic</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2 — THE STORY -->
+    <div class="slide" data-index="1">
+      <div class="slide-inner" style="background:#07080f;">
+        <div class="slide-num">02 / 08</div>
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 20% 80%, rgba(200,150,46,0.07) 0%, transparent 60%);pointer-events:none;"></div>
+        <div class="slide-brand">
+          <div class="brand-dot"></div>
+          <span class="brand-name">Emowall AI 2.0</span>
+        </div>
+        <div class="s2-big">
+          Most safety apps<br>
+          protect <span class="gold">one person.</span><br>
+          Mine protects<br>
+          <span class="teal">everyone.</span>
+        </div>
+        <div class="s2-lines">
+          <div class="s2-line">
+            <span class="s2-line-icon">👶</span>
+            <span class="s2-line-text"><strong>Babies</strong> — cry detection, lullaby AI, sleep alerts</span>
+          </div>
+          <div class="s2-line">
+            <span class="s2-line-icon">🧒</span>
+            <span class="s2-line-text"><strong>Children</strong> — kidnap detection, auto SOS to parents</span>
+          </div>
+          <div class="s2-line">
+            <span class="s2-line-icon">👩</span>
+            <span class="s2-line-text"><strong>Women</strong> — health companion + emergency response</span>
+          </div>
+          <div class="s2-line">
+            <span class="s2-line-icon">👴</span>
+            <span class="s2-line-text"><strong>Elderly</strong> — fall detection, voice-activated SOS</span>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span class="slide-footer-brand">Divin K K · Emobies</span>
+          <span class="slide-footer-tag">#FamilySafety</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3 — THE PROBLEM -->
+    <div class="slide" data-index="2">
+      <div class="slide-inner" style="background:#050608;">
+        <div class="slide-num">03 / 08</div>
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%, rgba(200,150,46,0.08) 0%, transparent 60%);pointer-events:none;"></div>
+        <div class="slide-brand">
+          <div class="brand-dot"></div>
+          <span class="brand-name">Emowall AI 2.0</span>
+        </div>
+        <span class="s3-kicker">Why I built this</span>
+        <h2 class="s3-title">The world has<br>a <span class="gold">safety gap.</span><br>I built the bridge.</h2>
+        <div class="s3-list">
+          <div class="s3-item">
+            <span class="s3-item-emoji">❌</span>
+            <span class="s3-item-text">Existing apps protect <strong>one person</strong> — not the whole family</span>
+          </div>
+          <div class="s3-item">
+            <span class="s3-item-emoji">❌</span>
+            <span class="s3-item-text"><strong>No app</strong> covers children, elderly AND accessibility needs</span>
+          </div>
+          <div class="s3-item">
+            <span class="s3-item-emoji">❌</span>
+            <span class="s3-item-text">Most require <strong>expensive subscriptions</strong> — families can't afford it</span>
+          </div>
+          <div class="s3-item">
+            <span class="s3-item-emoji">✅</span>
+            <span class="s3-item-text" style="color:var(--teal)"><strong>Emowall solves all three.</strong> Free. Offline. For everyone.</span>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span class="slide-footer-brand">Divin K K · Emobies</span>
+          <span class="slide-footer-tag">#AI #Safety</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4 — 8 MODES -->
+    <div class="slide" data-index="3">
+      <div class="slide-inner" style="background:var(--void);">
+        <div class="slide-num">04 / 08</div>
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 80% 50%, rgba(0,212,170,0.07) 0%, transparent 60%);pointer-events:none;"></div>
+        <div class="slide-brand">
+          <div class="brand-dot"></div>
+          <span class="brand-name">Emowall AI 2.0</span>
+        </div>
+        <span class="s4-kicker">One App. Eight Modes.</span>
+        <h2 class="s4-title">Every generation.<br><span class="teal">Fully covered.</span></h2>
+        <div class="s4-modes">
+          <div class="s4-mode">
+            <span class="s4-mode-emoji">🛡️</span>
+            <div class="s4-mode-info">
+              <div class="s4-mode-name">Guardian</div>
+              <div class="s4-mode-for">Children & Women</div>
+            </div>
+          </div>
+          <div class="s4-mode">
+            <span class="s4-mode-emoji">⚔️</span>
+            <div class="s4-mode-info">
+              <div class="s4-mode-name">Shield</div>
+              <div class="s4-mode-for">Students & Men</div>
+            </div>
+          </div>
+          <div class="s4-mode">
+            <span class="s4-mode-emoji">♿</span>
+            <div class="s4-mode-info">
+              <div class="s4-mode-name">Care</div>
+              <div class="s4-mode-for">Accessibility</div>
+            </div>
+          </div>
+          <div class="s4-mode">
+            <span class="s4-mode-emoji">🗣️</span>
+            <div class="s4-mode-info">
+              <div class="s4-mode-name">Guardian AI</div>
+              <div class="s4-mode-for">Elderly Care</div>
+            </div>
+          </div>
+          <div class="s4-mode">
+            <span class="s4-mode-emoji">👶</span>
+            <div class="s4-mode-info">
+              <div class="s4-mode-name">Digital Amma</div>
+              <div class="s4-mode-for">Babies & Mothers</div>
+            </div>
+          </div>
+          <div class="s4-mode">
+            <span class="s4-mode-emoji">🧠</span>
+            <div class="s4-mode-info">
+              <div class="s4-mode-name">Child Doctor</div>
+              <div class="s4-mode-for">Mental Health AI</div>
+            </div>
+          </div>
+          <div class="s4-mode">
+            <span class="s4-mode-emoji">👩</span>
+            <div class="s4-mode-info">
+              <div class="s4-mode-name">Women's Health</div>
+              <div class="s4-mode-for">Wellness Companion</div>
+            </div>
+          </div>
+          <div class="s4-mode" style="border-color:rgba(0,212,170,0.2);">
+            <span class="s4-mode-emoji">🔍</span>
+            <div class="s4-mode-info">
+              <div class="s4-mode-name" style="color:var(--teal)">Media Verifier</div>
+              <div class="s4-mode-for">Deepfake Detection ✨</div>
+            </div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span class="slide-footer-brand">Divin K K · Emobies</span>
+          <span class="slide-footer-tag">#Flutter #App</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5 — 7 BRAINS -->
+    <div class="slide" data-index="4">
+      <div class="slide-inner" style="background:#060710;">
+        <div class="slide-num">05 / 08</div>
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 100%, rgba(200,150,46,0.06) 0%, transparent 60%);pointer-events:none;"></div>
+        <div class="slide-brand">
+          <div class="brand-dot"></div>
+          <span class="brand-name">Emowall AI 2.0</span>
+        </div>
+        <h2 class="s5-title">The secret?<br><span class="gold">7 AI brains</span><br>working as one.</h2>
+        <p class="s5-sub">No single AI is perfect. Together, they're unstoppable.</p>
+        <div class="s5-brains">
+          <div class="s5-brain">
+            <span class="s5-brain-num">01</span>
+            <span class="s5-brain-name">Claude</span>
+            <span class="s5-brain-role">Architecture & Engineering</span>
+            <div class="s5-brain-bar" style="background:linear-gradient(90deg,var(--gold),var(--gold3))"></div>
+          </div>
+          <div class="s5-brain">
+            <span class="s5-brain-num">02</span>
+            <span class="s5-brain-name">Gemini</span>
+            <span class="s5-brain-role">In-App AI & Vision</span>
+            <div class="s5-brain-bar" style="background:linear-gradient(90deg,#4285f4,#34a853)"></div>
+          </div>
+          <div class="s5-brain">
+            <span class="s5-brain-num">03</span>
+            <span class="s5-brain-name">ChatGPT</span>
+            <span class="s5-brain-role">Content Strategy</span>
+            <div class="s5-brain-bar" style="background:linear-gradient(90deg,#10a37f,#00d4aa)"></div>
+          </div>
+          <div class="s5-brain">
+            <span class="s5-brain-num">04</span>
+            <span class="s5-brain-name">DeepSeek</span>
+            <span class="s5-brain-role">Detection Algorithms</span>
+            <div class="s5-brain-bar" style="background:linear-gradient(90deg,#7c3aed,#a78bfa)"></div>
+          </div>
+          <div class="s5-brain">
+            <span class="s5-brain-num">05</span>
+            <span class="s5-brain-name">Cursor AI</span>
+            <span class="s5-brain-role">IDE Refactoring</span>
+            <div class="s5-brain-bar" style="background:linear-gradient(90deg,var(--amber),#ffd60a)"></div>
+          </div>
+          <div class="s5-brain">
+            <span class="s5-brain-num">06</span>
+            <span class="s5-brain-name">Copilot</span>
+            <span class="s5-brain-role">CI/CD Guardian</span>
+            <div class="s5-brain-bar" style="background:linear-gradient(90deg,#6366f1,#8b5cf6)"></div>
+          </div>
+          <div class="s5-brain">
+            <span class="s5-brain-num">07</span>
+            <span class="s5-brain-name">Perplexity</span>
+            <span class="s5-brain-role">Research & Intelligence</span>
+            <div class="s5-brain-bar" style="background:linear-gradient(90deg,#f43f5e,#fb7185)"></div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span class="slide-footer-brand">Divin K K · Emobies</span>
+          <span class="slide-footer-tag">#AI #MultiAI</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6 — MEDIA VERIFIER -->
+    <div class="slide" data-index="5">
+      <div class="slide-inner" style="background:#040509;">
+        <div class="slide-num">06 / 08</div>
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 30%, rgba(0,212,170,0.08) 0%, transparent 60%);pointer-events:none;"></div>
+        <div class="slide-brand">
+          <div class="brand-dot" style="background:var(--teal)"></div>
+          <span class="brand-name" style="color:var(--teal)">New Feature</span>
+        </div>
+        <span class="s6-badge">✨ New in v1.0.12</span>
+        <h2 class="s6-title">Can you trust<br>what you see?<br><span class="teal">Now you can.</span></h2>
+        <p class="s6-desc">Media Verifier — powered by Gemini Vision. Detects whether any image or video is real, edited, or AI-generated. In a world drowning in deepfakes, your family deserves the truth.</p>
+        <div class="s6-tags">
+          <span class="s6-tag tag-real">✅ REAL</span>
+          <span class="s6-tag tag-edited">✏️ EDITED</span>
+          <span class="s6-tag tag-ai">🤖 AI GENERATED</span>
+        </div>
+        <div class="slide-footer">
+          <span class="slide-footer-brand">Divin K K · Emobies</span>
+          <span class="slide-footer-tag">#Deepfake #GeminiAI</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7 — NUMBERS -->
+    <div class="slide" data-index="6">
+      <div class="slide-inner" style="background:#050608;">
+        <div class="slide-num">07 / 08</div>
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 50% 80% at 0% 100%, rgba(200,150,46,0.07) 0%, transparent 60%);pointer-events:none;"></div>
+        <div class="slide-brand">
+          <div class="brand-dot"></div>
+          <span class="brand-name">Emowall AI 2.0</span>
+        </div>
+        <h2 class="s7-title">
+          Built on a<br>
+          <span class="gold">phone.</span> From<br>
+          <span class="teal">Dubai.</span>
+        </h2>
+        <div class="s7-facts">
+          <div class="s7-fact">
+            <span class="s7-fact-num">335+</span>
+            <span class="s7-fact-label">Deployments to production</span>
+          </div>
+          <div class="s7-fact">
+            <span class="s7-fact-num teal">7</span>
+            <span class="s7-fact-label">AI models working together</span>
+          </div>
+          <div class="s7-fact">
+            <span class="s7-fact-num">8</span>
+            <span class="s7-fact-label">Safety modes for every family member</span>
+          </div>
+          <div class="s7-fact">
+            <span class="s7-fact-num teal">0</span>
+            <span class="s7-fact-label">Laptops used. Built entirely on mobile.</span>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span class="slide-footer-brand">Divin K K · Emobies</span>
+          <span class="slide-footer-tag">#MadeInDubai #IndieHacker</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8 — CTA -->
+    <div class="slide" data-index="7">
+      <div class="slide-inner" style="background:var(--void);">
+        <div class="slide-num">08 / 08</div>
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 80% at 50% 50%, rgba(200,150,46,0.1) 0%, transparent 70%);animation:glowPulse 4s ease-in-out infinite;pointer-events:none;"></div>
+        <div class="slide-brand">
+          <div class="brand-dot"></div>
+          <span class="brand-name">Emowall AI 2.0</span>
+        </div>
+        <span class="s8-pre">Free · Offline · No Subscription</span>
+        <h2 class="s8-title">
+          Protect your<br>
+          <span class="gold">family.</span><br>
+          Starting today.
+        </h2>
+        <p class="s8-desc">Download Emowall AI 2.0 on Google Play. Early Access now live. Full launch March 22, 2026.</p>
+        <span class="s8-cta">🦋 Download Free on Google Play</span>
+        <div class="s8-butterfly">🦋</div>
+        <div class="slide-footer">
+          <span class="slide-footer-brand">Divin K K · @emobies</span>
+          <span class="slide-footer-tag">#Emowall #Launch</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /slide-container -->
+
+  <!-- CONTROLS -->
+  <div class="controls">
+    <button class="ctrl-btn" id="prevBtn" onclick="navigate(-1)">←</button>
+    <div class="dots" id="dots"></div>
+    <button class="ctrl-btn" id="nextBtn" onclick="navigate(1)">→</button>
+    <span class="slide-counter" id="counter">1 / 8</span>
+  </div>
+  <div class="instructions">← → arrow keys to navigate · Screenshot each slide to post</div>
+</div>
+
+<!-- POST COPY -->
+<div class="copy-section">
+  <div class="copy-header">
+    <span class="copy-title">📋 LinkedIn Post Copy</span>
+    <button class="copy-btn" onclick="copyText()">Copy Text</button>
+  </div>
+  <div class="copy-body" id="postCopy">I built an AI safety app for my entire family.
+
+Using 7 AI models.
+On my phone.
+From Dubai.
+
+No laptop. No office. No team.
+Just me, Termux, and a dream. 🦋
+
+━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Most safety apps protect one person.
+
+Emowall AI 2.0 protects everyone:
+
+👶 Babies — cry detection, lullaby AI
+🧒 Children — kidnap detection, SOS to parents
+🎓 Students — ragging & harassment detection
+👩 Women — health companion + emergency alerts
+👴 Elderly — fall detection, voice-activated SOS
+♿ Everyone — blind, deaf & speech-impaired support
+
+One app. Eight modes. Every generation.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━
+
+And the new feature I'm most proud of?
+
+🔍 Media Verifier — powered by Gemini Vision
+
+Detects whether an image or video is:
+✅ REAL
+✏️ EDITED
+🤖 AI_GENERATED
+
+In a world drowning in deepfakes,
+your family deserves to know what's real.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━
+
+How I built it with zero budget:
+
+🧠 Claude → architecture & full code files
+🧠 Gemini → in-app AI + Media Verifier
+🧠 ChatGPT → content & store copy
+🧠 Cursor → live code editing
+🧠 Copilot → CI/CD & test coverage
+🧠 DeepSeek → detection algorithms
+🧠 Perplexity → research & packages
+
+No single AI is perfect.
+But seven AIs working together?
+
+That's Emowall.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🦋 Now live on Google Play — Early Access
+Production launch: March 22, 2026
+
+If you have a family — this is for you.
+If you know a solo founder — share this.
+
+Because safety shouldn't be a luxury.
+
+🦋 Emowall AI 2.0 — Compassionate. Life-Saving.
+Built by Dwin · Dubai 🇦🇪 · Made for Kerala 🌿
+
+#AI #Flutter #SafetyApp #FamilySafety #MadeInDubai #BuildInPublic #IndieHacker #Startup #Emowall #WomenSafety #ChildSafety</div>
+</div>
+
+<script>
+let current = 0;
+const slides = document.querySelectorAll('.slide');
+const total = slides.length;
+const dotsEl = document.getElementById('dots');
+const counter = document.getElementById('counter');
+
+// Build dots
+for (let i = 0; i < total; i++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsEl.appendChild(d);
+}
+
+function goTo(n) {
+  slides[current].classList.remove('active');
+  slides[current].classList.add('prev');
+  setTimeout(() => slides[current].classList.remove('prev'), 450);
+
+  current = (n + total) % total;
+  slides[current].classList.add('active');
+
+  // Update dots
+  document.querySelectorAll('.dot').forEach((d, i) => {
+    d.classList.toggle('active', i === current);
+  });
+
+  counter.textContent = (current + 1) + ' / ' + total;
+  document.getElementById('prevBtn').disabled = current === 0;
+  document.getElementById('nextBtn').disabled = current === total - 1;
+}
+
+function navigate(dir) {
+  if (dir === -1 && current === 0) return;
+  if (dir === 1 && current === total - 1) return;
+  goTo(current + dir);
+}
+
+// Keyboard nav
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight') navigate(1);
+  if (e.key === 'ArrowLeft') navigate(-1);
+});
+
+// Initial state
+document.getElementById('prevBtn').disabled = true;
+
+// Copy text
+function copyText() {
+  const text = document.getElementById('postCopy').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = 'Copied! ✓';
+    setTimeout(() => btn.textContent = 'Copy Text', 2000);
+  });
+}
+
+// Touch/swipe support
+let touchStartX = 0;
+document.querySelector('.slide-container').addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+});
+document.querySelector('.slide-container').addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 50) navigate(dx < 0 ? 1 : -1);
+});
+</script>
+</body>
+</html>
