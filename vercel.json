@@ -1,0 +1,10 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "web.e-mobies.com" }],
+      "destination": "/emobies.html"
+    },
+    { "source": "/", "destination": "/Emowall-Ai.2.0.html" }
+  ]
+}
